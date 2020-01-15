@@ -14,31 +14,40 @@ class CommandeController{
     public function list(Request $req, Response $resp, $args){
         $resp = $resp->withHeader('Content-Type', 'application/json');
         $commandes = Commande::select("id", "nom", "created_at", "livraison", "status");
-
+        $count_commandes = Commande::all()->count();
         if(isset($_GET["s"]) && is_numeric($_GET["s"])){
             $commandes = $commandes->where("status", "=", $_GET["s"]);
         }
 
-        if(isset($_GET["page"]) && is_numeric($_GET["page"])){
-            if($_GET["page"] > 0){
-                $page = $_GET["page"];
+        if(isset($_GET["page"])){
+            if(isset($_GET["size"])){
+                $size = $_GET["size"];
             }else{
+                $size = 10;
+            }
+
+            if ($_GET["page"] > round($count_commandes/$size)){
+                $page = round($count_commandes/$size);
+            } elseif($_GET["page"] > 0){
+                $page = $_GET["page"];
+            }
+            else{
                 $page = 1;
             }
-                if(isset($_GET["size"]) & is_numeric($_GET["size"])){
-                    $commandes = $commandes->skip(($page-1)*$_GET["size"])->take($_GET["size"]);
-                }else{
-                    $commandes = $commandes->skip(($page-1)*10)->take(10);
-                }
-
+        }else{
+            $page = 1;
+            $size = 10;
         }
+
+        $commandes = $commandes->skip(($page-1)*$size)->take($size);
+
 
         $new_commandes = [];
         foreach ($commandes->get()->toArray() as $commande){
             $new_commandes[] = ["commande" => $commande, "links" => ["href" => "/commandes/".$commande["id"]]];
         }
 
-        $resp->getBody()->write(Json::collection("commandes", $new_commandes, Commande::all()->count())) ;
+        $resp->getBody()->write(Json::collection("commandes", $new_commandes, $count_commandes)) ;
         return $resp;
     }
 
