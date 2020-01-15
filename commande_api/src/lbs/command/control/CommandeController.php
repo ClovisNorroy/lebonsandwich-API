@@ -26,8 +26,9 @@ class CommandeController{
                 $size = 10;
             }
 
-            if ($_GET["page"] > round($count_commandes/$size)){
-                $page = round($count_commandes/$size);
+            if ($_GET["page"] > ceil($count_commandes/$size)){
+                //TODO: PAGE = 2000, SIZE = 500 ????
+                $page = ceil($count_commandes/$size);
             } elseif($_GET["page"] > 0){
                 $page = $_GET["page"];
             }
