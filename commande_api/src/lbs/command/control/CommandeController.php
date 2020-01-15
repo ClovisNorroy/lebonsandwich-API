@@ -13,7 +13,14 @@ class CommandeController{
 
     public function list(Request $req, Response $resp, $args){
         $resp = $resp->withHeader('Content-Type', 'application/json');
-        $resp->getBody()->write(Json::collection("commandes", Commande::all()->toArray())) ;
+        $commandes = Commande::select("id", "nom", "created_at", "livraison", "status")->get()->toArray();
+
+        $new_commandes = [];
+        foreach ($commandes as $commande){
+            $new_commandes[] = ["commande" => $commande, "links" => ["href" => "/commandes/".$commande["id"]]];
+        }
+
+        $resp->getBody()->write(Json::collection("commandes", $new_commandes)) ;
         return $resp;
     }
 

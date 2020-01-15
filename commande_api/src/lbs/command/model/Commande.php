@@ -7,4 +7,8 @@ class Commande extends \Illuminate\Database\Eloquent\Model{
     protected $keyType = 'string';
     public $incrementing = false;
     public $timestamps = true;
+
+    public function links(){
+        return "ok";
+    }
 }
