@@ -1,0 +1,60 @@
+-- Adminer 4.6.3 MySQL dump
+
+SET NAMES utf8;
+SET time_zone = '+00:00';
+SET foreign_key_checks = 0;
+SET sql_mode = 'NO_AUTO_VALUE_ON_ZERO';
+
+INSERT INTO `client` (`id`, `nom_client`, `mail_client`, `passwd`, `cumul_achats`, `created_at`, `updated_at`) VALUES
+(51,	'Philippine Da Costa',	'Philippine.Da Costa@dbmail.com',	'$2y$10$DQ2Zhoj1vhCLYoJkMc5u0ekudGIrOcemYpHMN9HR4uoIx043.8Y16',	4.69,	'2019-11-18 14:10:18',	'2019-11-18 14:10:18'),
+(52,	'André Vaillant',	'André.Vaillant@orange.fr',	'$2y$10$ZkPjV85eMnnilmXB4SXeruODNJ4je6GvwTNFINqWl5z2nlLNU99kW',	16.64,	'2019-11-18 14:10:18',	'2019-11-18 14:10:18'),
+(53,	'Josette Allain',	'Josette.Allain@ifrance.com',	'$2y$10$bKgsoHB7GCgzJom1n8AqIukh8O0mRvh8LlroyY0xveVFYD7j5jx3S',	8.99,	'2019-11-18 14:10:18',	'2019-11-18 14:10:18'),
+(54,	'Christophe Dupuis',	'Christophe.Dupuis@bouygtel.fr',	'$2y$10$xLBKYkq.TH7L8/CcBMLLrOR8sReyLXvj5SiuD/Kk/xkTQCh6YXrZK',	12.65,	'2019-11-18 14:10:18',	'2019-11-18 14:10:18'),
+(55,	'Louise Joubert',	'Louise.Joubert@live.com',	'$2y$10$d9x6rHHrGq6wqp2/YnujoOuNeMttm.CkHUnyOSmpCPyYEq7MGYtFq',	17.81,	'2019-11-18 14:10:18',	'2019-11-18 14:10:18'),
+(56,	'Alix Jacquet',	'Alix.Jacquet@wanadoo.fr',	'$2y$10$BPX5QXHJyRrOr5jcdXWlQu09nT39P3fanfWKNQAh/jL8YU8lAWuqO',	21.49,	'2019-11-18 14:10:18',	'2019-11-18 14:10:18'),
+(57,	'Véronique Bouchet',	'Véronique.Bouchet@dbmail.com',	'$2y$10$OJQmKAF2vLcLHDZNVVhvb.OzBINFtM/1rbwTwAqAUiopfwI9Tk7qi',	16.03,	'2019-11-18 14:10:18',	'2019-11-18 14:10:18'),
+(58,	'Tristan Bodin',	'Tristan.Bodin@wanadoo.fr',	'$2y$10$5svrPUX.VYc6vHQY6GFEou7kYQJ2dQMqqJAPVdX/TvT1WJtjBK0jq',	5.75,	'2019-11-18 14:10:18',	'2019-11-18 14:10:18'),
+(59,	'Andrée Ledoux',	'Andrée.Ledoux@club-internet.fr',	'$2y$10$SsHgNDPACVZpAV6XXsfkP.dojXJTRkmIAxI/Ar5F5i5/CgB7uEjTq',	9.89,	'2019-11-18 14:10:18',	'2019-11-18 14:10:18'),
+(60,	'Suzanne Colin',	'Suzanne.Colin@bouygtel.fr',	'$2y$10$Qe4iwcyAmEc/EppWDYawxOVmv3DfZ9kHs6zGftKg/WYU0LZIYd8Ru',	5.93,	'2019-11-18 14:10:18',	'2019-11-18 14:10:18'),
+(61,	'Aimé Guilbert',	'Aimé.Guilbert@wanadoo.fr',	'$2y$10$1./ixO1mQpFNnggR770EAOt2hHJiyrngOHUIxQElgxqhrqGH/XgpK',	23.99,	'2019-11-18 14:10:18',	'2019-11-18 14:10:18'),
+(62,	'David Gomez',	'David.Gomez@ifrance.com',	'$2y$10$8djDsk0dAvOkaag9GQ3j.ebgNd4V6B5dXe4h6XEWL.MkSvKo1HtQW',	14.38,	'2019-11-18 14:10:18',	'2019-11-18 14:10:18'),
+(63,	'Auguste Ruiz',	'Auguste.Ruiz@orange.fr',	'$2y$10$gH6Yvo1cK1ZGrgutT2eT2.1QAsxZ2WDo.PceKUWrb1ii379VEOVs6',	7.75,	'2019-11-18 14:10:18',	'2019-11-18 14:10:18'),
+(64,	'Aimé Vallet',	'Aimé.Vallet@orange.fr',	'$2y$10$X/uHRkSHNF4Wk.qQNc5OoeCAWEz5YbG6AF2baD5hKRmiQA2KpZ3e2',	19.59,	'2019-11-18 14:10:19',	'2019-11-18 14:10:19'),
+(65,	'Arnaude Chevallier',	'Arnaude.Chevallier@laposte.net',	'$2y$10$N7rSCFt5igxbM.f5jJTyRe.0O1Sc3OSdeDV8YBLf.7wI3PkSCnByq',	14.39,	'2019-11-18 14:10:19',	'2019-11-18 14:10:19'),
+(66,	'Émilie Leduc',	'Émilie.Leduc@orange.fr',	'$2y$10$GYstWv8OUe9S440vXZwI6ekG2gScr8VGk77Aq5axF/Vf3Y/hivOB6',	11.46,	'2019-11-18 14:10:19',	'2019-11-18 14:10:19'),
+(67,	'Lorraine Lenoir',	'Lorraine.Lenoir@noos.fr',	'$2y$10$5RMU62guej5YK28vDoX.0e00AnBDmuGYFOgtOyJFw8uRxVMMqFLt.',	13.31,	'2019-11-18 14:10:19',	'2019-11-18 14:10:19'),
+(68,	'Amélie Daniel',	'Amélie.Daniel@hotmail.fr',	'$2y$10$IRk5.xvoPjV4Oj84wzRPfu7auL/zqarZQFndouMMJZEGm5TsTz3eu',	22.72,	'2019-11-18 14:10:19',	'2019-11-18 14:10:19'),
+(69,	'Philippe Leveque',	'Philippe.Leveque@live.com',	'$2y$10$HlVMeSgrS4RvidEvsGvoF.uR9LFQ1gyUCDpbubEKCrBp5EtFsOhFO',	13.99,	'2019-11-18 14:10:19',	'2019-11-18 14:10:19'),
+(70,	'Élisabeth Pires',	'Élisabeth.Pires@wanadoo.fr',	'$2y$10$ogRjoI4Vs4IAfz6c6EhQGOudbYI9iXUxEx8exWKG8FXCg5sBvCDgi',	5.23,	'2019-11-18 14:10:19',	'2019-11-18 14:10:19'),
+(71,	'Alexandrie Muller',	'Alexandrie.Muller@sfr.fr',	'$2y$10$xxIbt/wMTolmHgGwiBOcqOUwpfBeTdebI54cWUJoe7iFsxvFsO4lm',	12.28,	'2019-11-18 14:10:19',	'2019-11-18 14:10:19'),
+(72,	'Timothée Auger',	'Timothée.Auger@club-internet.fr',	'$2y$10$sgNVz5FGdM6//zmeI2Rl0.HZM0Nx1LnDdM7nfSrN2mueJqA0FNbdO',	8.14,	'2019-11-18 14:10:19',	'2019-11-18 14:10:19'),
+(73,	'Lucy Perrier',	'Lucy.Perrier@bouygtel.fr',	'$2y$10$GZdK8W1IRndEKQQPoVi6U.G4iNfJiDkoQXXOvREBD1nfJwb22iOPK',	11.06,	'2019-11-18 14:10:19',	'2019-11-18 14:10:19'),
+(74,	'Hortense Lamy',	'Hortense.Lamy@yahoo.fr',	'$2y$10$o1Xwd7LK5R6bPb82BtPtx.nmeJj/8sEG7WHBovVCvOsflSoMcKhC6',	8.11,	'2019-11-18 14:10:19',	'2019-11-18 14:10:19'),
+(75,	'Gilles Potier',	'Gilles.Potier@orange.fr',	'$2y$10$SKErlMZXSOdZPiNoBDTTO.c9IkIGyIFg0mlFMftbGL2piD9cWMULa',	19.45,	'2019-11-18 14:10:19',	'2019-11-18 14:10:19'),
+(76,	'Michelle Cousin',	'Michelle.Cousin@live.com',	'$2y$10$JX7dO9JexPZrg5lnpFaAO.YFp0ME6jKpTwSE/ZTEq68OOdDmWLCqe',	10.77,	'2019-11-18 14:10:19',	'2019-11-18 14:10:19'),
+(77,	'Thomas Robin',	'Thomas.Robin@yahoo.fr',	'$2y$10$2W701owypShHp3XjcKBulekg1.kHQS7ZPwbFmASBRZ82bGHlcTnGy',	23.73,	'2019-11-18 14:10:19',	'2019-11-18 14:10:19'),
+(78,	'Marguerite Alexandre',	'Marguerite.Alexandre@orange.fr',	'$2y$10$tumkxeKTHsSiLUy/GwNIkOvD5t0fVtRHsS.YUaZKHQs1mz11hrm1q',	14.68,	'2019-11-18 14:10:19',	'2019-11-18 14:10:19'),
+(79,	'Frédérique Carre',	'Frédérique.Carre@sfr.fr',	'$2y$10$PLspTMSHBhH3AGjhoANF7.IAnyESRdlo11MZqKrkSTwZFXcFLntMS',	10.83,	'2019-11-18 14:10:20',	'2019-11-18 14:10:20'),
+(80,	'Jules Berthelot',	'Jules.Berthelot@ifrance.com',	'$2y$10$UNr9cMdI1BEFo.7KInO.1.cXvvohLhq0CdPc8Qbx.7RcKSQFnMlPS',	19.53,	'2019-11-18 14:10:20',	'2019-11-18 14:10:20'),
+(81,	'Hugues Marty',	'Hugues.Marty@gmail.com',	'$2y$10$5ECF9Qc0wiJ7qzm1S6bx6.AW4kOdVrT39QLc5GOAJkGshG.rw0VjG',	12.47,	'2019-11-18 14:10:20',	'2019-11-18 14:10:20'),
+(82,	'Sophie Klein',	'Sophie.Klein@noos.fr',	'$2y$10$ImEzoFr4J8tS1wtAupx4cuzZd.UdQqO3WwlHH8jOcx8PQ0ggBDApS',	21.42,	'2019-11-18 14:10:20',	'2019-11-18 14:10:20'),
+(83,	'Élodie Maillet',	'Élodie.Maillet@ifrance.com',	'$2y$10$iAFqjnXEesCt1CcIXZqGZe5hjX9/zA4rhxi0y5chtVsZeXkuU95Q2',	8.23,	'2019-11-18 14:10:20',	'2019-11-18 14:10:20'),
+(84,	'Colette Carre',	'Colette.Carre@yahoo.fr',	'$2y$10$5nWLZkjhAs3xzZiSsKXFRO3MeXdS22ZspSKOI3rEe99oKNkXTWArq',	8.24,	'2019-11-18 14:10:20',	'2019-11-18 14:10:20'),
+(85,	'Christophe Gay',	'Christophe.Gay@voila.fr',	'$2y$10$f5eYe3MeVjBIvWSy0Kil4.oVCEZAn5Dchm588Mvw36mpsGzubuxdO',	7.08,	'2019-11-18 14:10:20',	'2019-11-18 14:10:20'),
+(86,	'Jacques Launay',	'Jacques.Launay@sfr.fr',	'$2y$10$6m1gNKNhl1wbp0dIRatlseG7gxvLr2MNHtfKtTf0wrLGrjM4XLACu',	11.88,	'2019-11-18 14:10:20',	'2019-11-18 14:10:20'),
+(87,	'William Guibert',	'William.Guibert@tele2.fr',	'$2y$10$FM0un.L/ZK0KkuDOzgflW.76ouJS83DCJF2PzlAXy/KrBS2GZpLh6',	19.83,	'2019-11-18 14:10:20',	'2019-11-18 14:10:20'),
+(88,	'Céline Collin',	'Céline.Collin@dbmail.com',	'$2y$10$BpHzbOerGVG5RVKq1OGHOe3BJ/vtzZ7CS1dXPw5ir4z5G/u1RU.mu',	12.04,	'2019-11-18 14:10:20',	'2019-11-18 14:10:20'),
+(89,	'Bernard Cohen',	'Bernard.Cohen@free.fr',	'$2y$10$PmlulWOrizswn2l.3E37yuVS6cYrvYhPZzSD/R22vg7qEAjj5MHQW',	21.39,	'2019-11-18 14:10:20',	'2019-11-18 14:10:20'),
+(90,	'Robert Guichard',	'Robert.Guichard@live.com',	'$2y$10$0xveHWsp9Gpssi/ffbWPkeArBDIudNcs6m4sWb2F3KK5sMjW0J2bW',	10.39,	'2019-11-18 14:10:20',	'2019-11-18 14:10:20'),
+(91,	'Nicole Nicolas',	'Nicole.Nicolas@noos.fr',	'$2y$10$g7A86V7Bvj27Z/IaLgE.Y.FnkZ9VS2NFv80WLC.LoZTxrdlRTOqzW',	24.48,	'2019-11-18 14:10:20',	'2019-11-18 14:10:20'),
+(92,	'Adèle Guichard',	'Adèle.Guichard@dbmail.com',	'$2y$10$SCiuPWmVke9D1qMOinpoIemfV8kThuDUpb5Jp4GjE4MCEAq3jigOK',	15.47,	'2019-11-18 14:10:20',	'2019-11-18 14:10:20'),
+(93,	'Noémi Gilles',	'Noémi.Gilles@laposte.net',	'$2y$10$JBF.oqDUn1mVevevVbwBG.JVXP36gseRd/C0S81ay5Px1Ylv7UjtS',	9.87,	'2019-11-18 14:10:20',	'2019-11-18 14:10:20'),
+(94,	'Lucie Moreau',	'Lucie.Moreau@orange.fr',	'$2y$10$9lgvWFStmKj8PLzjQOnIN.0MdZ3rQiR9tO53USXDcmX.b2tzRlMyy',	24.34,	'2019-11-18 14:10:21',	'2019-11-18 14:10:21'),
+(95,	'Robert Lemaire',	'Robert.Lemaire@hotmail.fr',	'$2y$10$jXpEC6svOL80cvzvuVNUK.cRiJiH/w63PeXbnTFRmKuO53mfrPYNi',	22.24,	'2019-11-18 14:10:21',	'2019-11-18 14:10:21'),
+(96,	'Martin Lambert',	'Martin.Lambert@orange.fr',	'$2y$10$Fbp.EXkZQeKtRfB9PiRP9Ol9glkkvW/QqI4o0Q1vhznAhmMjtkXnu',	20.58,	'2019-11-18 14:10:21',	'2019-11-18 14:10:21'),
+(97,	'Aimé Lebon',	'Aimé.Lebon@bouygtel.fr',	'$2y$10$J6lTFQDOqoMmqlPmmJhvHOGrypklZKBZ0V5tMfW5zrQNOEY4N.hAW',	9.08,	'2019-11-18 14:10:21',	'2019-11-18 14:10:21'),
+(98,	'Arthur Raymond',	'Arthur.Raymond@club-internet.fr',	'$2y$10$mRSkOpt4AFJZ1uKVZzZl9uyv1vu.jZ8xpTIm5rOSSqFD/0MQco8wW',	16.43,	'2019-11-18 14:10:21',	'2019-11-18 14:10:21'),
+(99,	'Bernard Riou',	'Bernard.Riou@live.com',	'$2y$10$2.J8.OrvnAZE9QNz3PbZ..OcdrG0oGJdy7NJXeD0teSFbXuYGsFHW',	24.50,	'2019-11-18 14:10:21',	'2019-11-18 14:10:21'),
+(100,	'Matthieu Legendre',	'Matthieu.Legendre@orange.fr',	'$2y$10$B5lNYE3yfYdiOhEdMBLfpu6umEUK4s6Imjq.WsPmrjUEw3m6mJY4G',	23.08,	'2019-11-18 14:10:21',	'2019-11-18 14:10:21');
+
+-- 2019-11-18 15:07:56

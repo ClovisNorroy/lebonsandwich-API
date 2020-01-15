@@ -1,0 +1,24 @@
+{
+  "type": "collection",
+  "count": 3,
+  "commandes": [
+    {
+      "id": "AuTR4-65ZTY",
+      "mail_client": "jan.neymar@yaboo.fr",
+      "date_commande": "2019-12-25",
+      "montant": 25.95
+    },
+    {
+      "id": "657GT-I8G443",
+      "mail_client": "jan.neplin@gmal.fr",
+      "date_commande": "2019-11-27",
+      "montant": 42.95
+    },
+    {
+      "id": "K9J67-4D6F5",
+      "mail_client": "claude.francois@grorange.fr",
+      "date_commande": "2019-12-07",
+      "montant": 14.95
+    }
+  ]
+}

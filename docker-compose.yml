@@ -1,0 +1,104 @@
+#################################################################
+# 
+#.  docker-compose.yml pour la fabrication d'un environnement de tests/execution
+#.    pour des projets php/mysql/mongodb/mailcatcher
+#.   
+#.  Basé sur : https://bitbucket.org/canals5/docker-php-dev/
+#  Documentation : https://bitbucket.org/canals5/docker-php-dev/src/master/boilerplate/
+#
+#.  A UTILISER EXCLUSIVEMENT EN DEVELOPPEMENT
+#
+#################################################################
+version: "3"
+
+networks:
+  lbs.net:
+    driver: bridge
+
+services:
+  api.commande:
+    image: canals/php:latest
+    environment:
+    - VHOST_HOSTNAME=api.commande.local
+    - VHOST_DOCROOT=/var/www/api
+    ports:
+    - "19080:80"
+    - "19043:443"
+    volumes:
+    - ./commande_api/api:/var/www/api
+    - ./commande_api/src:/var/www/src
+    working_dir: /var/www/src
+    networks:
+    - lbs.net
+    links:
+    - mysql.commande:dbcom
+
+  api.catalogue:
+    image: canals/php:latest
+    environment:
+      - VHOST_HOSTNAME=api.catalogue.local
+      - VHOST_DOCROOT=/var/www/api
+    ports:
+      - "19180:80"
+      - "19143:443"
+    volumes :
+      - ./catalogue_api/api:/var/www/api
+      - ./catalogue_api/src:/var/www/src
+    working_dir : /var/www/src
+    networks:
+      - lbs.net
+    links :
+      - mongo.cat:dbcat
+
+
+#############################
+# mysql commande  + adminer
+#############################
+  mysql.commande:
+    image: mariadb:latest
+    command: --default-authentication-plugin=mysql_native_password --character-set-server=utf8 --collation-server=utf8_general_ci
+    environment:
+      - MYSQL_ROOT_PASSWORD=comroot123
+      - MYSQL_USER=command_lbs
+      - MYSQL_PASSWORD=command_lbs
+      - MYSQL_DATABASE=command_lbs
+    ports:
+      - "3307:3306"
+    networks:
+      - lbs.net
+    volumes :
+      - ./commande_api/sql:/var/sql
+
+  adminer:
+     image: adminer
+     ports:
+       - "8080:8080"
+     networks:
+       - lbs.net
+     links:
+       - mysql.commande:command
+
+
+
+################################################
+# mongodb & mongo-express
+###############################################
+  mongo.cat:
+    image: mongo:latest
+    volumes:
+      - ./catalogue_api/data:/var/data
+    working_dir: /var/data
+    networks:
+      - lbs.net
+    ports:
+      - 27018:27017
+
+  mongo-express:
+    image: mongo-express:latest
+    networks:
+    - lbs.net
+    ports:
+    - "8081:8081"
+    links:
+    - mongo.cat:mongo
+    
