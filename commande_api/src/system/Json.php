@@ -12,11 +12,12 @@ class Json
         ]);
     }
 
-    public static function collection(string $name_collection, array $collections)
+    public static function collection(string $name_collection, array $collections, $count)
     {
         return json_encode([
             "type" => "collection",
-            "count" => count($collections),
+            "count" => $count,
+            "size" => count($collections),
             $name_collection => $collections
         ]);
     }

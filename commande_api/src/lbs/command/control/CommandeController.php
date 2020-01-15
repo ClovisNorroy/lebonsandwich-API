@@ -20,7 +20,17 @@ class CommandeController{
         }
 
         if(isset($_GET["page"]) && is_numeric($_GET["page"])){
-            $commandes = $commandes->skip(($_GET["page"]-1)*10)->take(10);
+            if($_GET["page"] > 0){
+                $page = $_GET["page"];
+            }else{
+                $page = 1;
+            }
+                if(isset($_GET["size"]) & is_numeric($_GET["size"])){
+                    $commandes = $commandes->skip(($page-1)*$_GET["size"])->take($_GET["size"]);
+                }else{
+                    $commandes = $commandes->skip(($page-1)*10)->take(10);
+                }
+
         }
 
         $new_commandes = [];
@@ -28,7 +38,7 @@ class CommandeController{
             $new_commandes[] = ["commande" => $commande, "links" => ["href" => "/commandes/".$commande["id"]]];
         }
 
-        $resp->getBody()->write(Json::collection("commandes", $new_commandes)) ;
+        $resp->getBody()->write(Json::collection("commandes", $new_commandes, Commande::all()->count())) ;
         return $resp;
     }
 
