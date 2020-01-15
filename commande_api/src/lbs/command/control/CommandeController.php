@@ -1,4 +1,5 @@
 <?php
+
 namespace lbs\command\control;
 
 use lbs\command\model\Commande;
@@ -8,61 +9,63 @@ use Ramsey\Uuid\Uuid;
 use Ramsey\Uuid\Exception\UnsatisfiedDependencyException;
 use system\Json;
 
-class CommandeController{
+class CommandeController
+{
 
 
-    public function list(Request $req, Response $resp, $args){
+    public function list(Request $req, Response $resp, $args)
+    {
         $resp = $resp->withHeader('Content-Type', 'application/json');
         $commandes = Commande::select("id", "nom", "created_at", "livraison", "status");
         $count_commandes = Commande::all()->count();
-        if(isset($_GET["s"]) && is_numeric($_GET["s"])){
+        if (isset($_GET["s"]) && is_numeric($_GET["s"])) {
             $commandes = $commandes->where("status", "=", $_GET["s"]);
         }
 
-        if(isset($_GET["page"])){
-            if(isset($_GET["size"])){
+
+        if (isset($_GET["page"])) {
+            if (isset($_GET["size"])) {
                 $size = $_GET["size"];
-            }else{
+            } else {
                 $size = 10;
             }
 
-            if ($_GET["page"] > ceil($count_commandes/$size)){
-                //TODO: PAGE = 2000, SIZE = 500 ????
-                $page = ceil($count_commandes/$size);
-            } elseif($_GET["page"] > 0){
+            if ($_GET["page"] > ceil($count_commandes / $size)) {
+                $page = ceil($count_commandes / $size);
+            } elseif ($_GET["page"] > 0) {
                 $page = $_GET["page"];
-            }
-            else{
+            } else {
                 $page = 1;
             }
-        }else{
+        } else {
             $page = 1;
             $size = 10;
         }
 
-        $commandes = $commandes->skip(($page-1)*$size)->take($size);
+        $commandes = $commandes->skip(($page - 1) * $size)->take($size);
 
 
         $new_commandes = [];
-        foreach ($commandes->get()->toArray() as $commande){
-            $new_commandes[] = ["commande" => $commande, "links" => ["href" => "/commandes/".$commande["id"]]];
+        foreach ($commandes->get()->toArray() as $commande) {
+            $new_commandes[] = ["commande" => $commande, "links" => ["href" => "/commandes/" . $commande["id"]]];
         }
 
-        $resp->getBody()->write(Json::collection("commandes", $new_commandes, $count_commandes)) ;
+        $resp->getBody()->write(Json::collection("commandes", $new_commandes, $count_commandes));
         return $resp;
     }
 
-    public function get(Request $req, Response $resp, $args){
+    public function get(Request $req, Response $resp, $args)
+    {
         $resp = $resp->withHeader('Content-Type', 'application/json');
 
         $id = $args['id'];
 
         $commande = Commande::find($id);
 
-        if($commande){
+        if ($commande) {
 
             $resp->getBody()->write(Json::resource("commande", $commande->toArray()));
-        }else{
+        } else {
             $resp = $resp->withStatus(404);
             $resp->getBody()->write(Json::error(404, "ressource non disponible"));
 
@@ -71,18 +74,19 @@ class CommandeController{
         return $resp;
     }
 
-    public function create(Request $req, Response $resp, $args){
+    public function create(Request $req, Response $resp, $args)
+    {
         $resp = $resp->withHeader('Content-Type', 'application/json');
 
         $req_body = $req->getBody()->getContents();
-        if(Json::isJson($req_body)){
+        if (Json::isJson($req_body)) {
             $body = json_decode($req_body, true);
             $resp = $resp->withStatus(500);
 
-            if(isset($body["mail"]) && isset($body["nom"]) && isset($body["livraison"])){
-                if(filter_var($body["mail"], FILTER_VALIDATE_EMAIL)){
-                    if($body["nom"] != ""){
-                        if($body["livraison"] != ""){
+            if (isset($body["mail"]) && isset($body["nom"]) && isset($body["livraison"])) {
+                if (filter_var($body["mail"], FILTER_VALIDATE_EMAIL)) {
+                    if ($body["nom"] != "") {
+                        if ($body["livraison"] != "") {
 
                             $uuid = Uuid::uuid1();
 
@@ -95,42 +99,43 @@ class CommandeController{
 
                             $resp->getBody()->write(Json::resource("commande", $commande->toArray()));
 //$this->c['router' ]->pathFor('commande', ['id'=>$commande->id])
-                            $resp = $resp->withHeader("Location" , "http://api.commande.local:19080/commandes/".$uuid->toString());
+                            $resp = $resp->withHeader("Location", "http://api.commande.local:19080/commandes/" . $uuid->toString());
                             $resp = $resp->withStatus(201);
 
-                        }else{
+                        } else {
                             $resp->getBody()->write(Json::error(500, "merci de transmettre une livraison valide"));
                         }
-                    }else{
+                    } else {
                         $resp->getBody()->write(Json::error(500, "merci de transmettre un nom valide"));
                     }
-                }else{
+                } else {
                     $resp->getBody()->write(Json::error(500, "merci de transmettre un mail valide"));
                 }
-            }else{
+            } else {
                 $resp->getBody()->write(Json::error(500, "merci de transmettre du nom, email et livraison"));
             }
-        }else{
+        } else {
             $resp->getBody()->write(Json::error(500, "merci de transmettre du JSON valide"));
         }
 
         return $resp;
     }
 
-    public function update(Request $req, Response $resp, $args){
+    public function update(Request $req, Response $resp, $args)
+    {
         $resp = $resp->withHeader('Content-Type', 'application/json');
 
         //Retourne une erreur 500 par défaut
         $resp = $resp->withStatus(500);
 
         $req_body = $req->getBody()->getContents();
-        if(Json::isJson($req_body)) {
+        if (Json::isJson($req_body)) {
             $body = json_decode($req_body, true);
 
-            if(isset($args["id"])){
+            if (isset($args["id"])) {
                 $commande = Commande::find($args["id"]);
 
-                if($commande){
+                if ($commande) {
                     $commande->livraison = htmlspecialchars($body["livraison"]);
                     $commande->nom = htmlspecialchars($body["nom"]);
                     $commande->mail = htmlspecialchars($body["mail"]);
@@ -145,10 +150,10 @@ class CommandeController{
                     $commande->save();
                     $resp = $resp->withStatus(200);
                     $resp->getBody()->write(Json::resource("commande", $commande->toArray()));
-                }else{
+                } else {
                     $resp->getBody()->write(Json::error(404, "Commande introuvable"));
                 }
-            }else{
+            } else {
                 $resp->getBody()->write(Json::error(500, "Des données sont manquantes"));
             }
         }

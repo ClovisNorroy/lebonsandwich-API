@@ -8,7 +8,6 @@ class Commande extends \Illuminate\Database\Eloquent\Model{
     public $incrementing = false;
     public $timestamps = true;
 
-    public function links(){
-        return "ok";
-    }
+    protected $defaultSize = 10;
+
 }
