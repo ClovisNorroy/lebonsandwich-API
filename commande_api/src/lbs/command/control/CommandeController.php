@@ -13,10 +13,18 @@ class CommandeController{
 
     public function list(Request $req, Response $resp, $args){
         $resp = $resp->withHeader('Content-Type', 'application/json');
-        $commandes = Commande::select("id", "nom", "created_at", "livraison", "status")->get()->toArray();
+        $commandes = Commande::select("id", "nom", "created_at", "livraison", "status");
+
+        if(isset($_GET["s"]) && is_numeric($_GET["s"])){
+            $commandes = $commandes->where("status", "=", $_GET["s"]);
+        }
+
+        if(isset($_GET["page"]) && is_numeric($_GET["page"])){
+            $commandes = $commandes->skip(($_GET["page"]-1)*10)->take(10);
+        }
 
         $new_commandes = [];
-        foreach ($commandes as $commande){
+        foreach ($commandes->get()->toArray() as $commande){
             $new_commandes[] = ["commande" => $commande, "links" => ["href" => "/commandes/".$commande["id"]]];
         }
 
