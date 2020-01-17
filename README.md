@@ -13,6 +13,14 @@
 * 1 base de données mongo catalogue
 * 1 base de données sql commandes
 
+## SETUP
+
+1) clone repo
+2) ```sudo docker-compose up```
+3) ```sudo docker-compose start```
+4) Importer les données dans la base local
+5) ```sudo docker-compose start```
+
 ## docker-compose
 
 * un fichier docker-compose.yml de démarrage est fourni. Il permet de construire un environnement d'exécution php/mysql/mongo.
