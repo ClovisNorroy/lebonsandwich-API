@@ -15,11 +15,11 @@
 
 ## SETUP
 
-1) clone repo
-2) ```sudo docker-compose up```
-3) ```sudo docker-compose start```
-4) Importer les données dans la base local
-5) ```sudo docker-compose start```
+* clone repo
+* ```sudo docker-compose up```
+* ```sudo docker-compose start```
+* Importer les données dans la base local
+* ```sudo docker-compose start```
 
 ## docker-compose
 
