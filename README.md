@@ -18,8 +18,8 @@
 * clone repo
 * ```sudo docker-compose up```
 * ```sudo docker-compose start```
-* Importer les données dans la base local
-* ```sudo docker-compose start```
+* Importer les données dans la base local (Système : MySQL | Serveur : command | Utilisateur : command_lbs | MDP : command_lbs | BDD : command_lbs)
+* Pour tout lancer par la suite : ```sudo docker-compose start```
 
 ## docker-compose
 
