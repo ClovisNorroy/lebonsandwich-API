@@ -20,6 +20,7 @@
 * ```sudo docker-compose start```
 * Importer les données dans la base local (Système : MySQL | Serveur : command | Utilisateur : command_lbs | MDP : command_lbs | BDD : command_lbs)
 * Pour tout lancer par la suite : ```sudo docker-compose start```
+* Dans le repertoire avec composer.json : ```composer install```
 
 ## docker-compose
 
