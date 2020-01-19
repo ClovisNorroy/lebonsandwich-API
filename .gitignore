@@ -107,3 +107,5 @@ composer.phar
 /doc/api.doc/docs/
 .idea/inspectionProfiles/
 doc/internals/
+
+/commande_api/api/conf/db.ini
