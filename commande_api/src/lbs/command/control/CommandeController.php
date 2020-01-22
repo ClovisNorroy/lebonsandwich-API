@@ -22,7 +22,6 @@ class CommandeController
             $commandes = $commandes->where("status", "=", $_GET["s"]);
         }
 
-
         if (isset($_GET["page"])) {
             if (isset($_GET["size"])) {
                 $size = $_GET["size"];

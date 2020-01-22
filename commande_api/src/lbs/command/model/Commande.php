@@ -9,5 +9,4 @@ class Commande extends \Illuminate\Database\Eloquent\Model{
     public $timestamps = true;
 
     protected $defaultSize = 10;
-
 }
