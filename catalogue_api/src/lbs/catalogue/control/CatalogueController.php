@@ -28,7 +28,7 @@ class CatalogueController
 
         if ($allSandwichs) {
 
-            $resp->getBody()->write(Json::resource("commande", $allSandwichs->toArray()));
+            $resp->getBody()->write(Json::resource("sandwich", $allSandwichs->toArray()));
         } else {
             $resp = $resp->withStatus(404);
             $resp->getBody()->write(Json::error(404, "ressource non disponible"));
@@ -43,8 +43,7 @@ class CatalogueController
         $catSelected = $this->categories->findOne(["id" => intval($id)]);
         $sandwichsOfCat = $this->sandwichs->find(["categories"=>$catSelected->nom]);
         if ($sandwichsOfCat) {
-
-            $resp->getBody()->write(Json::resource("commande", $sandwichsOfCat->toArray()));
+            $resp->getBody()->write(Json::resource("sandwich", $sandwichsOfCat->toArray()));
         } else {
             $resp = $resp->withStatus(404);
             $resp->getBody()->write(Json::error(404, "ressource non disponible"));
@@ -52,5 +51,22 @@ class CatalogueController
         }
         return $resp;
 
+    }
+
+    public function getCategorieByID(Request $req, Response $resp, $args){
+        $resp = $resp->withHeader('Content-Type', 'application/json');
+        $id = $args['id'];
+        $catSelected = $this->categories->findOne(["id" => intval($id)], ["typeMap"=> []]);
+        if ($catSelected) {
+            $catSelected->links = [
+                "sandwichs"=>"/categories/".$catSelected->id."/sandwichs/",
+                "self"=>"/categories/".$catSelected->id."/"
+            ];
+            $resp->getBody()->write(Json::resource("categorie", (array)$catSelected));
+        } else {
+            $resp = $resp->withStatus(404);
+            $resp->getBody()->write(Json::error(404, "ressource non disponible"));
+        }
+        return $resp;
     }
 }

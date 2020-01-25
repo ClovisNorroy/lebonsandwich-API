@@ -15,8 +15,9 @@ $c = new\Slim\Container($config_slim);
 $app = new \Slim\App($c);
 
 
-$app->get('/categories/{id}/sandwichs', '\lbs\catalogue\control\CatalogueController:getSandwichsFromCategorie');
-$app->get('/sandwichs', "\lbs\catalogue\control\CatalogueController:getSandwichs");
+$app->get('/categories/{id}/sandwichs[/]', '\lbs\catalogue\control\CatalogueController:getSandwichsFromCategorie');
+$app->get('/sandwichs[/]', "\lbs\catalogue\control\CatalogueController:getSandwichs");
+$app->get('/categories/{id}[/]', '\lbs\catalogue\control\CatalogueController:getCategorieByID');
 
 $c['notFoundHandler'] = function ($c) {
     return function ($request, $response) use ($c) {
