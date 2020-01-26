@@ -1,8 +1,7 @@
 <?php
 use Psr\Http\Message\ResponseInterface as Response;
 use Psr\Http\Message\ServerRequestInterface as Request;
-use Slim\Factory\AppFactory;
-use src\controllers\CommandeController;
+use \lbs\pointvente\control\CommandeController;
 use system\Json;
 
 require '../src/vendor/autoload.php';
@@ -23,10 +22,9 @@ $db->bootEloquent();
 $c = new\Slim\Container($config_slim);
 $app = new \Slim\App($c);
 
-$app->get('/commands[/]', "\lbs\command\control\CommandeController:list");
-$app->post('/commands[/]', "\lbs\command\control\CommandeController:create");
-$app->get('/commands/{id}', '\lbs\command\control\CommandeController:get');
-$app->put('/commands/{id}', '\lbs\command\control\CommandeController:update');
+$app->get('/commands[/]', "\lbs\pointvente\control\CommandeController:list");
+$app->get('/commands/{id}', '\lbs\pointvente\control\CommandeController:get');
+
 
 $c['notFoundHandler'] = function ($c) {
     return function ($request, $response) use ($c) {

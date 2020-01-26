@@ -50,6 +50,24 @@ services:
     links :
       - mongo.cat:dbcat
 
+  api.pointvente:
+    image: canals/php:latest
+    environment:
+      - VHOST_HOSTNAME=api.pointvente.local
+      - VHOST_DOCROOT=/var/www/api
+    ports:
+      - "19280:80"
+      - "19243:443"
+    volumes:
+      - ./point_vente_api/api:/var/www/api
+      - ./point_vente_api/src:/var/www/src
+    working_dir: /var/www/src
+    networks:
+      - lbs.net
+    links:
+      - mongo.cat:dbcat
+      - mysql.commande:dbcom
+
 
 #############################
 # mysql commande  + adminer
