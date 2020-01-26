@@ -76,11 +76,14 @@ class CommandeController
                 array_push($itemsCommand, $detailItem);
             }
             $commande->items = $itemsCommand;
-            $commande->links = [
-                "self"=>"/commands/".$args['id']."/",
-                "items"=>"/commands/".$args['id']."/items/"
-            ];
-            $resp->getBody()->write(Json::resource("command", $commande->toArray()));
+
+            $resp->getBody()->write(Json::resource("command", [
+                "links"=> [
+                    "self"=>"/commands/".$args['id']."/",
+                    "items"=>"/commands/".$args['id']."/items/"
+                ],
+                "command" => $commande->toArray()
+            ]));
         } else {
             $resp = $resp->withStatus(404);
             $resp->getBody()->write(Json::error(404, "ressource non disponible"));
