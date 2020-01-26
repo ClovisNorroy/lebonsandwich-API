@@ -1,6 +1,17 @@
 # LBS : une application exemple à base de micro-services
 ## thématique : acheter des sandwichs
 
+## SETUP
+
+* clone repo
+* ```sudo docker-compose up --no-start```
+* ```sudo docker-compose start```
+* Importer les données dans la base local (port 8080)(Système : MySQL | Serveur : command | Utilisateur : command_lbs | MDP : command_lbs | BDD : command_lbs)
+* Importer les données dans la base Mongo (port 8081)
+* Pour tout lancer par la suite : ```sudo docker-compose start```
+* Dans le conteneur docker de l'API, dans le repertoire avec composer.json : ```composer install```
+* Modifier le fichier local /etc/hosts pour ajouter les adresses des API en 127.0.0.1
+
 ## Services
 
 * 1 service de prise de commandes : commande_api
@@ -12,15 +23,6 @@
 
 * 1 base de données mongo catalogue
 * 1 base de données sql commandes
-
-## SETUP
-
-* clone repo
-* ```sudo docker-compose up```
-* ```sudo docker-compose start```
-* Importer les données dans la base local (Système : MySQL | Serveur : command | Utilisateur : command_lbs | MDP : command_lbs | BDD : command_lbs)
-* Pour tout lancer par la suite : ```sudo docker-compose start```
-* Dans le repertoire avec composer.json : ```composer install```
 
 ## docker-compose
 

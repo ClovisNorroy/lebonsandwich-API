@@ -27,7 +27,6 @@ class CatalogueController
         $allSandwichs = $this->sandwichs->find();
 
         if ($allSandwichs) {
-
             $resp->getBody()->write(Json::resource("sandwich", $allSandwichs->toArray()));
         } else {
             $resp = $resp->withStatus(404);
@@ -39,8 +38,7 @@ class CatalogueController
 
     public function getSandwichsFromCategorie(Request $req, Response $resp, $args){
         $resp = $resp->withHeader('Content-Type', 'application/json');
-        $id = $args['id'];
-        $catSelected = $this->categories->findOne(["id" => intval($id)]);
+        $catSelected = $this->categories->findOne(["id" => intval($args['id'])]);
         $sandwichsOfCat = $this->sandwichs->find(["categories"=>$catSelected->nom]);
         if ($sandwichsOfCat) {
             $resp->getBody()->write(Json::resource("sandwich", $sandwichsOfCat->toArray()));

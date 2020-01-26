@@ -1,7 +1,7 @@
 <?php
 namespace lbs\pointvente\model;
 
-class Commande extends \Illuminate\Database\Eloquent\Model{
+class Command extends \Illuminate\Database\Eloquent\Model{
     protected $table = "commande";
     protected $primaryKey = "id";
     protected $keyType = 'string';
@@ -9,4 +9,8 @@ class Commande extends \Illuminate\Database\Eloquent\Model{
     public $timestamps = true;
 
     protected $defaultSize = 10;
+
+    public function Items(){
+        return $this->hasMany('lbs\pointvente\model\Items', 'command_id');
+    }
 }
