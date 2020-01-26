@@ -17,7 +17,8 @@ class CommandeController
     {
         $resp = $resp->withHeader('Content-Type', 'application/json');
         $commandes = Commande::select("id", "nom", "created_at", "livraison", "status");
-        $count_commandes = Commande::all()->count();
+        $count_commandes = $commandes->count();
+
         if (isset($_GET["s"]) && is_numeric($_GET["s"])) {
             $commandes = $commandes->where("status", "=", $_GET["s"]);
         }
@@ -42,7 +43,6 @@ class CommandeController
         }
 
         $commandes = $commandes->skip(($page - 1) * $size)->take($size);
-
 
         $new_commandes = [];
         foreach ($commandes->get()->toArray() as $commande) {
