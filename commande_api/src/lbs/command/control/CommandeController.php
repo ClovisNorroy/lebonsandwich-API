@@ -107,12 +107,12 @@ class CommandeController
 
 
                                     if(isset($body["items"]) && is_array($body["items"])){
-                                        $q = 0;
+
                                         foreach ($body["items"] as $item){
-                                            $q += $commande->addItem($item);
+                                            $commande->addItem($item);
                                         }
                                     }
-                                    $commande->montant = $q;
+
                                     $commande->save();
 
                                     $resp->getBody()->write(Json::resource("commande", $commande->toArray()));

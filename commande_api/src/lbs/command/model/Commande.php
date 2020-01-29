@@ -20,6 +20,7 @@ class Commande extends \Illuminate\Database\Eloquent\Model
     {
         $api_res = Guzzle::getClient()->get($item["uri"]);
         $sandwich = \GuzzleHttp\json_decode($api_res->getBody())->sandwich[0];
+        $this->montant += $sandwich->prix->numberDecimal*$item["q"];
 
         $req = DB::table("item")->insert([
             "uri" => $item["uri"],
