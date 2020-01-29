@@ -104,13 +104,16 @@ class CommandeController
                                     $commande->token = bin2hex(openssl_random_pseudo_bytes(32));
                                     $commande->montant = 0;
                                     $commande->livraison = $body["livraison"]["date"]." ".$body["livraison"]["heure"];
-                                    $commande->save();
+
 
                                     if(isset($body["items"]) && is_array($body["items"])){
+                                        $q = 0;
                                         foreach ($body["items"] as $item){
-                                            $commande->addItem($item);
+                                            $q += $commande->addItem($item);
                                         }
                                     }
+                                    $commande->montant = $q;
+                                    $commande->save();
 
                                     $resp->getBody()->write(Json::resource("commande", $commande->toArray()));
 

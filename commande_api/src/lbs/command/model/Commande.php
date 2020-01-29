@@ -21,13 +21,15 @@ class Commande extends \Illuminate\Database\Eloquent\Model
         $api_res = Guzzle::getClient()->get($item["uri"]);
         $sandwich = \GuzzleHttp\json_decode($api_res->getBody())->sandwich[0];
 
-        return DB::table("item")->insert([
+        $req = DB::table("item")->insert([
             "uri" => $item["uri"],
             "libelle" => $sandwich->nom,
             "tarif" => $sandwich->prix->numberDecimal*$item["q"],
             "quantite" => $item["q"],
             "command_id" => $this->id
         ]);
+        return $sandwich->prix->numberDecimal*$item["q"];
+
     }
 
     public function toArray()
