@@ -32,6 +32,7 @@ services:
     - lbs.net
     links:
     - mysql.commande:dbcom
+    - api.catalogue:api.catalogue.local
 
   api.catalogue:
     image: canals/php:latest

@@ -106,6 +106,12 @@ class CommandeController
                                     $commande->livraison = $body["livraison"]["date"]." ".$body["livraison"]["heure"];
                                     $commande->save();
 
+                                    if(isset($body["items"]) && is_array($body["items"])){
+                                        foreach ($body["items"] as $item){
+                                            $commande->addItem($item);
+                                        }
+                                    }
+
                                     $resp->getBody()->write(Json::resource("commande", $commande->toArray()));
 
                                     $resp = $resp->withHeader("Location", "http://api.commande.local:19080/commandes/" . $uuid->toString());

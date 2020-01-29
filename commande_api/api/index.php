@@ -3,6 +3,7 @@ use Psr\Http\Message\ResponseInterface as Response;
 use Psr\Http\Message\ServerRequestInterface as Request;
 use Slim\Factory\AppFactory;
 use src\controllers\CommandeController;
+use system\Guzzle;
 use system\Json;
 
 require '../src/vendor/autoload.php';
@@ -19,6 +20,7 @@ $db->addConnection($config_illuminate);
 $db->setAsGlobal();
 $db->bootEloquent();
 
+Guzzle::init();
 
 $c = new\Slim\Container($config_slim);
 $app = new \Slim\App($c);

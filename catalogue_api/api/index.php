@@ -16,6 +16,7 @@ $app = new \Slim\App($c);
 
 
 $app->get('/categories/{id}/sandwichs[/]', '\lbs\catalogue\control\CatalogueController:getSandwichsFromCategorie');
+$app->get('/sandwichs/{ref}[/]', "\lbs\catalogue\control\CatalogueController:getSandwichByID");
 $app->get('/sandwichs[/]', "\lbs\catalogue\control\CatalogueController:getSandwichs");
 $app->get('/categories/{id}[/]', '\lbs\catalogue\control\CatalogueController:getCategorieByID');
 

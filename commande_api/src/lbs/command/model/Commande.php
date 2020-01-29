@@ -1,7 +1,13 @@
 <?php
+
 namespace lbs\command\model;
 
-class Commande extends \Illuminate\Database\Eloquent\Model{
+
+use Illuminate\Database\Capsule\Manager as DB;
+use system\Guzzle;
+
+class Commande extends \Illuminate\Database\Eloquent\Model
+{
     protected $table = "commande";
     protected $primaryKey = "id";
     protected $keyType = 'string';
@@ -10,6 +16,19 @@ class Commande extends \Illuminate\Database\Eloquent\Model{
 
     protected $defaultSize = 10;
 
+    public function addItem($item)
+    {
+        $api_res = Guzzle::getClient()->get($item["uri"]);
+        $sandwich = \GuzzleHttp\json_decode($api_res->getBody())->sandwich[0];
+
+        return DB::table("item")->insert([
+            "uri" => $item["uri"],
+            "libelle" => $sandwich->nom,
+            "tarif" => $sandwich->prix->numberDecimal*$item["q"],
+            "quantite" => $item["q"],
+            "command_id" => $this->id
+        ]);
+    }
 
     public function toArray()
     {
