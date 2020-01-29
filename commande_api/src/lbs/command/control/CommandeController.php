@@ -55,19 +55,24 @@ class CommandeController
 
     public function get(Request $req, Response $resp, $args)
     {
+
         $resp = $resp->withHeader('Content-Type', 'application/json');
 
         $id = $args['id'];
-
+        $token = $_GET['token'];
         $commande = Commande::find($id);
 
         if ($commande) {
+            if($token == $commande->token || $_SERVER["HTTP_X_LBS_TOKEN"] == $commande->token){
+                $resp->getBody()->write(Json::resource("commande", $commande->toArray()));
+            }else{
+                $resp = $resp->withStatus(401);
+                $resp->getBody()->write(Json::error(401, "Token incorrect"));
+            }
 
-            $resp->getBody()->write(Json::resource("commande", $commande->toArray()));
         } else {
             $resp = $resp->withStatus(404);
             $resp->getBody()->write(Json::error(404, "ressource non disponible"));
-
         }
 
         return $resp;
@@ -87,19 +92,26 @@ class CommandeController
                     if ($body["nom"] != "") {
                         if ($body["livraison"] != "") {
 
-                            $uuid = Uuid::uuid1();
+                            if(isset($body["livraison"]["date"])){
+                                if(isset($body["livraison"]["heure"])){
 
-                            $commande = new Commande();
-                            $commande->id = $uuid->toString();
-                            $commande->nom = htmlspecialchars($body["nom"]);
-                            $commande->mail = htmlspecialchars($body["mail"]);
-                            $commande->livraison = htmlspecialchars($body["livraison"]);
-                            $commande->save();
+                                    $uuid = Uuid::uuid1();
 
-                            $resp->getBody()->write(Json::resource("commande", $commande->toArray()));
-//$this->c['router' ]->pathFor('commande', ['id'=>$commande->id])
-                            $resp = $resp->withHeader("Location", "http://api.commande.local:19080/commandes/" . $uuid->toString());
-                            $resp = $resp->withStatus(201);
+                                    $commande = new Commande();
+                                    $commande->id = $uuid->toString();
+                                    $commande->nom = htmlspecialchars($body["nom"]);
+                                    $commande->mail = htmlspecialchars($body["mail"]);
+                                    $commande->token = bin2hex(openssl_random_pseudo_bytes(32));
+                                    $commande->montant = 0;
+                                    $commande->livraison = $body["livraison"]["date"]." ".$body["livraison"]["heure"];
+                                    $commande->save();
+
+                                    $resp->getBody()->write(Json::resource("commande", $commande->toArray()));
+
+                                    $resp = $resp->withHeader("Location", "http://api.commande.local:19080/commandes/" . $uuid->toString());
+                                    $resp = $resp->withStatus(201);
+                                }
+                            }
 
                         } else {
                             $resp->getBody()->write(Json::error(500, "merci de transmettre une livraison valide"));
