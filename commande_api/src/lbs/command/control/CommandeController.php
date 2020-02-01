@@ -93,7 +93,6 @@ class CommandeController
         if (Json::isJson($req_body)) {
             $body = json_decode($req_body, true);
             $resp = $resp->withStatus(500);
-
             if (isset($body["mail"]) && isset($body["nom"]) && isset($body["livraison"])) {
                 if (filter_var($body["mail"], FILTER_VALIDATE_EMAIL)) {
                     if ($body["nom"] != "") {
@@ -116,17 +115,18 @@ class CommandeController
 
 
                                     if(isset($body["items"]) && is_array($body["items"])){
-
+                                        $items = [];
                                         foreach ($body["items"] as $item){
                                             $commande->addItem($item);
+                                            array_push($items, $item);
                                         }
                                     }
 
                                     $commande->save();
-
+                                    $commande->items = $items;
                                     $resp->getBody()->write(Json::resource("commande", $commande->toArray()));
 
-                                    $resp = $resp->withHeader("Location", "http://api.commande.local:19080/commandes/" . $uuid->toString());
+                                    $resp = $resp->withHeader("Location", "http://api.commande.local:19080/commands/" . $uuid->toString());
                                     $resp = $resp->withStatus(201);
                                 }
                             }
