@@ -22,8 +22,8 @@ $db->bootEloquent();
 $c = new\Slim\Container($config_slim);
 $app = new \Slim\App($c);
 
-$app->get('/commands[/]', "\lbs\pointvente\control\CommandeController:list");
-$app->get('/commands/{id}', '\lbs\pointvente\control\CommandeController:get');
+$app->get('/commands[/]', "\lbs\pointvente\control\CommandeController:listCommands");
+$app->get('/commands/{id}', '\lbs\pointvente\control\CommandeController:getCommand');
 
 
 $c['notFoundHandler'] = function ($c) {

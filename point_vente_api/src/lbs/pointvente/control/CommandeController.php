@@ -22,8 +22,7 @@ class CommandeController
         $this->sandwichs = $mongoDB->sandwichs;
     }
 
-
-    public function list(Request $req, Response $resp, $args)
+    public function listCommands(Request $req, Response $resp, $args)
     {
         $resp = $resp->withHeader('Content-Type', 'application/json');
         $commandes = Command::select("id", "nom", "created_at", "livraison", "status");
@@ -63,11 +62,23 @@ class CommandeController
         return $resp;
     }
 
-    public function get(Request $req, Response $resp, $args)
+    public function getCommand(Request $req, Response $resp, $args)
     {
         $resp = $resp->withHeader('Content-Type', 'application/json');
 
         $commande = Command::find($args['id']);
+
+        if(isset($_GET['token']) || isset($_SERVER["HTTP_X_LBS_TOKEN"])){
+            $token = $_GET['token'];
+        }else{
+            $resp = $resp->withStatus(401);
+            $resp->getBody()->write(Json::error(401, "Token non fournie"));
+            return $resp;
+        }
+        if($token != $commande->token && $_SERVER["HTTP_X_LBS_TOKEN"] != $commande->token){
+            $resp = $resp->withStatus(401);
+            $resp->getBody()->write(Json::error(401, "Token incorrect"));
+        }
 
         if ($commande) {
             $itemsCommand = [];

@@ -11,49 +11,7 @@ use system\Json;
 
 class CommandeController
 {
-
-
-    public function list(Request $req, Response $resp, $args)
-    {
-        $resp = $resp->withHeader('Content-Type', 'application/json');
-        $commandes = Commande::select("id", "nom", "created_at", "livraison", "status");
-        $count_commandes = $commandes->count();
-
-        if (isset($_GET["s"]) && is_numeric($_GET["s"])) {
-            $commandes = $commandes->where("status", "=", $_GET["s"]);
-        }
-
-        if (isset($_GET["page"])) {
-            if (isset($_GET["size"])) {
-                $size = $_GET["size"];
-            } else {
-                $size = 10;
-            }
-
-            if ($_GET["page"] > ceil($count_commandes / $size)) {
-                $page = ceil($count_commandes / $size);
-            } elseif ($_GET["page"] > 0) {
-                $page = $_GET["page"];
-            } else {
-                $page = 1;
-            }
-        } else {
-            $page = 1;
-            $size = 10;
-        }
-
-        $commandes = $commandes->skip(($page - 1) * $size)->take($size);
-
-        $new_commandes = [];
-        foreach ($commandes->get()->toArray() as $commande) {
-            $new_commandes[] = ["commande" => $commande, "links" => ["href" => "/commandes/" . $commande["id"]]];
-        }
-
-        $resp->getBody()->write(Json::collection("commandes", $new_commandes, $count_commandes));
-        return $resp;
-    }
-
-    public function get(Request $req, Response $resp, $args)
+    public function getCommand(Request $req, Response $resp, $args)
     {
 
         $resp = $resp->withHeader('Content-Type', 'application/json');
@@ -150,7 +108,7 @@ class CommandeController
         return $resp;
     }
 
-    public function update(Request $req, Response $resp, $args)
+    public function updateCommand(Request $req, Response $resp, $args)
     {
         $resp = $resp->withHeader('Content-Type', 'application/json');
 
