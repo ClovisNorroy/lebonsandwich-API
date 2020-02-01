@@ -8,6 +8,7 @@ use Psr\Http\Message\ServerRequestInterface as Request;
 use Ramsey\Uuid\Uuid;
 use Ramsey\Uuid\Exception\UnsatisfiedDependencyException;
 use system\Json;
+use system\Guzzle;
 
 class CommandeController
 {
@@ -65,7 +66,6 @@ class CommandeController
     public function getCommand(Request $req, Response $resp, $args)
     {
         $resp = $resp->withHeader('Content-Type', 'application/json');
-
         $commande = Command::find($args['id']);
 
         if(isset($_GET['token']) || isset($_SERVER["HTTP_X_LBS_TOKEN"])){
@@ -75,6 +75,7 @@ class CommandeController
             $resp->getBody()->write(Json::error(401, "Token non fournie"));
             return $resp;
         }
+
         if($token != $commande->token && $_SERVER["HTTP_X_LBS_TOKEN"] != $commande->token){
             $resp = $resp->withStatus(401);
             $resp->getBody()->write(Json::error(401, "Token incorrect"));
@@ -83,23 +84,27 @@ class CommandeController
         if ($commande) {
             $itemsCommand = [];
             foreach($commande->Items as $item){
-                $detailItem = $this->sandwichs->findOne(["nom" => $item->libelle]);
+
+                $api_res = Guzzle::getClient()->get($item->uri);
+                $sandwich = \GuzzleHttp\json_decode($api_res->getBody())->sandwich[0];
+                $detailItem = [
+                    "uri" => $item->uri,
+                    "libelle" => $sandwich->nom,
+                    "tarif" => $item->tarif,
+                    "quantite" => $item->quantite
+                ];
                 array_push($itemsCommand, $detailItem);
             }
-            $commande->items = $itemsCommand;
-
-            $resp->getBody()->write(Json::resource("command", [
-                "links"=> [
-                    "self"=>"/commands/".$args['id']."/",
-                    "items"=>"/commands/".$args['id']."/items/"
-                ],
-                "command" => $commande->toArray()
-            ]));
+            $commande->items = $detailItem;
+            $commande->links = [
+                "self"=>"/commands/".$args['id']."/",
+                "items"=>"/commands/".$args['id']."/items/"
+            ];
+            $resp->getBody()->write(Json::resource("command", $commande->toArray()));
         } else {
             $resp = $resp->withStatus(404);
             $resp->getBody()->write(Json::error(404, "ressource non disponible"));
         }
-
         return $resp;
     }
 }

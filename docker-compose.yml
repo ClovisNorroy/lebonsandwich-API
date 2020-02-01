@@ -68,6 +68,7 @@ services:
     links:
       - mongo.cat:dbcat
       - mysql.commande:dbcom
+      - api.catalogue:api.catalogue.local
 
 
 #############################

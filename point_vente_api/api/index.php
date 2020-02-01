@@ -3,9 +3,9 @@ use Psr\Http\Message\ResponseInterface as Response;
 use Psr\Http\Message\ServerRequestInterface as Request;
 use \lbs\pointvente\control\CommandeController;
 use system\Json;
+use system\Guzzle;
 
 require '../src/vendor/autoload.php';
-
 
 define('ROOTPATH', dirname(__FILE__)."/../");
 
@@ -18,6 +18,7 @@ $db->addConnection($config_illuminate);
 $db->setAsGlobal();
 $db->bootEloquent();
 
+Guzzle::init();
 
 $c = new\Slim\Container($config_slim);
 $app = new \Slim\App($c);

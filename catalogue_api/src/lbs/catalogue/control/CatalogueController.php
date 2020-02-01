@@ -36,7 +36,7 @@ class CatalogueController
         return $resp;
     }
 
-    public function getSandwichByID(Request $req, Response $resp, $args)
+    public function getSandwichByRef(Request $req, Response $resp, $args)
     {
         $resp = $resp->withHeader('Content-Type', 'application/json');
 
