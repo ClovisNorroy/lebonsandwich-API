@@ -59,7 +59,15 @@ class CommandeController
         $resp = $resp->withHeader('Content-Type', 'application/json');
 
         $id = $args['id'];
-        $token = $_GET['token'];
+
+            if(isset($_GET['token'])){
+                $token = $_GET['token'];
+            }else{
+                $resp = $resp->withStatus(401);
+                $resp->getBody()->write(Json::error(401, "Token non fournie"));
+                return $resp;
+            }
+
         $commande = Commande::find($id);
 
         if ($commande) {
@@ -74,11 +82,10 @@ class CommandeController
             $resp = $resp->withStatus(404);
             $resp->getBody()->write(Json::error(404, "ressource non disponible"));
         }
-
         return $resp;
     }
 
-    public function create(Request $req, Response $resp, $args)
+    public function createCommand(Request $req, Response $resp, $args)
     {
         $resp = $resp->withHeader('Content-Type', 'application/json');
 
@@ -95,12 +102,14 @@ class CommandeController
                             if(isset($body["livraison"]["date"])){
                                 if(isset($body["livraison"]["heure"])){
 
-                                    $uuid = Uuid::uuid1();
+                                    try {
+                                        $uuid = Uuid::uuid1();
+                                    } catch (\Exception $e) {}
 
                                     $commande = new Commande();
                                     $commande->id = $uuid->toString();
-                                    $commande->nom = htmlspecialchars($body["nom"]);
-                                    $commande->mail = htmlspecialchars($body["mail"]);
+                                    $commande->nom = filter_var($body["nom"], FILTER_SANITIZE_STRING);
+                                    $commande->mail = filter_var($body["mail"], FILTER_SANITIZE_STRING);
                                     $commande->token = bin2hex(openssl_random_pseudo_bytes(32));
                                     $commande->montant = 0;
                                     $commande->livraison = $body["livraison"]["date"]." ".$body["livraison"]["heure"];

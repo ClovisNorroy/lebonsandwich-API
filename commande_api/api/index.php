@@ -26,7 +26,7 @@ $c = new\Slim\Container($config_slim);
 $app = new \Slim\App($c);
 
 $app->get('/commands[/]', "\lbs\command\control\CommandeController:list");
-$app->post('/commands[/]', "\lbs\command\control\CommandeController:create");
+$app->post('/commands[/]', "\lbs\command\control\CommandeController:createCommand");
 $app->get('/commands/{id}', '\lbs\command\control\CommandeController:get');
 $app->put('/commands/{id}', '\lbs\command\control\CommandeController:update');
 
