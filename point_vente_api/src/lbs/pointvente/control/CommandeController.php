@@ -83,7 +83,7 @@ class CommandeController
 
         if ($commande) {
             $itemsCommand = [];
-            foreach($commande->Items as $item){
+            foreach($commande->Items() as $item){
 
                 $api_res = Guzzle::getClient()->get($item->uri);
                 $sandwich = \GuzzleHttp\json_decode($api_res->getBody())->sandwich[0];
@@ -95,7 +95,7 @@ class CommandeController
                 ];
                 array_push($itemsCommand, $detailItem);
             }
-            $commande->items = $detailItem;
+            $commande->items = $itemsCommand;
             $commande->links = [
                 "self"=>"/commands/".$args['id']."/",
                 "items"=>"/commands/".$args['id']."/items/"

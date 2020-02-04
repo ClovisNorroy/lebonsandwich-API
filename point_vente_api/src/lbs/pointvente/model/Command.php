@@ -11,6 +11,7 @@ class Command extends \Illuminate\Database\Eloquent\Model{
     protected $defaultSize = 10;
 
     public function Items(){
-        return $this->hasMany('lbs\pointvente\model\Items', 'command_id');
+
+        return $this->hasMany('lbs\pointvente\model\Items', 'command_id')->get();
     }
 }
