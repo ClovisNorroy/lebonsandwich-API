@@ -28,6 +28,8 @@ $app = new \Slim\App($c);
 $app->post('/commands[/]', "\lbs\command\control\CommandeController:createCommand");
 $app->get('/commands/{id}', '\lbs\command\control\CommandeController:getCommand');
 $app->put('/commands/{id}', '\lbs\command\control\CommandeController:updateCommand');
+$app->get('/clients/{id}[/]', '\lbs\command\control\ClientController:getClientCard');
+$app->post('/clients/{id}/auth', '\lbs\command\control\ClientController:authClient');
 
 $c['notFoundHandler'] = function ($c) {
     return function ($request, $response) use ($c) {
