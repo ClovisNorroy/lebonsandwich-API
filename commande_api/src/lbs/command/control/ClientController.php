@@ -17,15 +17,16 @@ class ClientController
         if(isset($args["id"])){
             $client = Client::find($args["id"]);
             if($client){
+
                 $token = explode(" ", $req->getHeader("Authorization")[0])[1];
                 $tokenDecoded = JWT::decode($token, "lul", array('HS512'));
                 $client = Client::find($tokenDecoded->id);
                 $resp->getBody()->write(Json::resource("client", $client->toArray()));
             }else{
-                $resp->getBody()->write(Json::error("Le client est introuvable."));
+                $resp->getBody()->write(Json::error(404, "Le client est introuvable."));
             }
         }else{
-            $resp->getBody()->write(Json::error("Merci d'entrer un identifiant valide."));
+            $resp->getBody()->write(Json::error(404, "Merci d'entrer un identifiant valide."));
         }
 
         return $resp;

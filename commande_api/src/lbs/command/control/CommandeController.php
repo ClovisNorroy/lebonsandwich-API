@@ -2,6 +2,8 @@
 
 namespace lbs\command\control;
 
+use Firebase\JWT\JWT;
+use lbs\command\model\Client;
 use lbs\command\model\Commande;
 use Psr\Http\Message\ResponseInterface as Response;
 use Psr\Http\Message\ServerRequestInterface as Request;
@@ -72,17 +74,33 @@ class CommandeController
                                     $commande->montant = 0;
                                     $commande->livraison = $body["livraison"]["date"]." ".$body["livraison"]["heure"];
 
+                                    if(isset($body["client_id"])){
+                                        $client = Client::find($body["client_id"]);
+                                        if($client) {
 
-                                    if(isset($body["items"]) && is_array($body["items"])){
-                                        $items = [];
-                                        foreach ($body["items"] as $item){
-                                            $commande->addItem($item);
-                                            array_push($items, $item);
+                                            $token = explode(" ", $req->getHeader("Authorization")[0])[1];
+                                            $tokenDecoded = JWT::decode($token, "lul", array('HS512'));
+
+                                            if($client->id == $tokenDecoded->id){
+
+                                                $commande->client_id = $body["client_id"];
+                                            }
                                         }
                                     }
 
+                                    if(isset($body["items"]) && is_array($body["items"])){
+                                        $items = [];
+                                        $total = 0;
+                                        foreach ($body["items"] as $item){
+                                            $total += $commande->addItem($item);
+                                            array_push($items, $item);
+                                        }
+                                        $client->cumul_achats += $total;
+                                        $client->save();
+                                    }
+
                                     $commande->save();
-                                    $commande->items = $items;
+
                                     $resp->getBody()->write(Json::resource("commande", $commande->toArray()));
 
                                     $resp = $resp->withHeader("Location", "http://api.commande.local:19080/commands/" . $uuid->toString());
