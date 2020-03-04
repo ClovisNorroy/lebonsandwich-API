@@ -49,11 +49,13 @@ class CommandeController
     public function createCommand(Request $req, Response $resp, $args)
     {
         $resp = $resp->withHeader('Content-Type', 'application/json');
-
         $req_body = $req->getBody()->getContents();
+
         if (Json::isJson($req_body)) {
             $body = json_decode($req_body, true);
             $resp = $resp->withStatus(500);
+
+
             if (isset($body["mail"]) && isset($body["nom"]) && isset($body["livraison"])) {
                 if (filter_var($body["mail"], FILTER_VALIDATE_EMAIL)) {
                     if ($body["nom"] != "") {
@@ -87,7 +89,6 @@ class CommandeController
                                             }
                                         }
                                     }
-
                                     if(isset($body["items"]) && is_array($body["items"])){
                                         $items = [];
                                         $total = 0;
@@ -163,7 +164,19 @@ class CommandeController
                 $resp->getBody()->write(Json::error(500, "Des données sont manquantes"));
             }
         }
-
         return $resp;
     }
+
+//    public function validateDataCommand($body){
+//        if(!isset($body["nom"]) || $body["nom"] != ""){
+//            return Json::error(500, "merci de transmettre un nom valide");
+//        }
+//        if(!filter_var($body["mail"], FILTER_VALIDATE_EMAIL)){
+//            return Json::error(500, "merci de transmettre un mail valide");
+//        }
+//        if(isset($body["livraison"]) && )
+//        if(\DateTime::createFromFormat('Y-M-d', $body["livraison"]["date"]) == false || ){
+//
+//        }
+//    }
 }

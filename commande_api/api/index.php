@@ -5,9 +5,21 @@ use Slim\Factory\AppFactory;
 use src\controllers\CommandeController;
 use system\Guzzle;
 use system\Json;
+use \Respect\Validation\Validator as v;
+use \DavidePastore\Slim\Validation\Validation as Validation;
 
 require '../src/vendor/autoload.php';
-
+$validators = [
+    'nom' => v::StringType()->alpha(),
+    'prenom' => v::StringType()->alpha(),
+    'mail' => v::email(),
+    'livraison' => [
+        'date' => v::date('Y-M-d')->min('now'),
+        'heure' => v::date('G:i')
+    ],
+    'client_id' => v::optional(v::numeric()),
+    'items' => v::notOptional()
+];
 
 define('ROOTPATH', dirname(__FILE__)."/../");
 
@@ -25,7 +37,9 @@ Guzzle::init();
 $c = new\Slim\Container($config_slim);
 $app = new \Slim\App($c);
 
-$app->post('/commands[/]', "\lbs\command\control\CommandeController:createCommand");
+$app->post('/commands[/]', "\lbs\command\control\CommandeController:createCommand")->add(
+new Validation($validators)
+);
 $app->get('/commands/{id}', '\lbs\command\control\CommandeController:getCommand');
 $app->put('/commands/{id}', '\lbs\command\control\CommandeController:updateCommand');
 $app->get('/clients/{id}[/]', '\lbs\command\control\ClientController:getClientCard');
