@@ -21,20 +21,20 @@ class CommandeController
 
         $id = $args['id'];
 
-            if(isset($_GET['token'])){
-                $token = $_GET['token'];
-            }else{
-                $resp = $resp->withStatus(401);
-                $resp->getBody()->write(Json::error(401, "Token non fournie"));
-                return $resp;
-            }
+        if (isset($_GET['token'])) {
+            $token = $_GET['token'];
+        } else {
+            $resp = $resp->withStatus(401);
+            $resp->getBody()->write(Json::error(401, "Token non fournie"));
+            return $resp;
+        }
 
         $commande = Commande::find($id);
 
         if ($commande) {
-            if($token == $commande->token || $_SERVER["HTTP_X_LBS_TOKEN"] == $commande->token){
+            if ($token == $commande->token || $_SERVER["HTTP_X_LBS_TOKEN"] == $commande->token) {
                 $resp->getBody()->write(Json::resource("commande", $commande->toArray()));
-            }else{
+            } else {
                 $resp = $resp->withStatus(401);
                 $resp->getBody()->write(Json::error(401, "Token incorrect"));
             }
@@ -48,83 +48,66 @@ class CommandeController
 
     public function createCommand(Request $req, Response $resp, $args)
     {
-        $resp = $resp->withHeader('Content-Type', 'application/json');
-        $req_body = $req->getBody()->getContents();
-
-        if (Json::isJson($req_body)) {
-            $body = json_decode($req_body, true);
-            $resp = $resp->withStatus(500);
-
-
-            if (isset($body["mail"]) && isset($body["nom"]) && isset($body["livraison"])) {
-                if (filter_var($body["mail"], FILTER_VALIDATE_EMAIL)) {
-                    if ($body["nom"] != "") {
-                        if ($body["livraison"] != "") {
-
-                            if(isset($body["livraison"]["date"])){
-                                if(isset($body["livraison"]["heure"])){
-
-                                    try {
-                                        $uuid = Uuid::uuid1();
-                                    } catch (\Exception $e) {}
-
-                                    $commande = new Commande();
-                                    $commande->id = $uuid->toString();
-                                    $commande->nom = filter_var($body["nom"], FILTER_SANITIZE_STRING);
-                                    $commande->mail = filter_var($body["mail"], FILTER_SANITIZE_STRING);
-                                    $commande->token = bin2hex(openssl_random_pseudo_bytes(32));
-                                    $commande->montant = 0;
-                                    $commande->livraison = $body["livraison"]["date"]." ".$body["livraison"]["heure"];
-
-                                    if(isset($body["client_id"])){
-                                        $client = Client::find($body["client_id"]);
-                                        if($client) {
-
-                                            $token = explode(" ", $req->getHeader("Authorization")[0])[1];
-                                            $tokenDecoded = JWT::decode($token, "lul", array('HS512'));
-
-                                            if($client->id == $tokenDecoded->id){
-
-                                                $commande->client_id = $body["client_id"];
-                                            }
-                                        }
-                                    }
-                                    if(isset($body["items"]) && is_array($body["items"])){
-                                        $items = [];
-                                        $total = 0;
-                                        foreach ($body["items"] as $item){
-                                            $total += $commande->addItem($item);
-                                            array_push($items, $item);
-                                        }
-                                        $client->cumul_achats += $total;
-                                        $client->save();
-                                    }
-
-                                    $commande->save();
-
-                                    $resp->getBody()->write(Json::resource("commande", $commande->toArray()));
-
-                                    $resp = $resp->withHeader("Location", "http://api.commande.local:19080/commands/" . $uuid->toString());
-                                    $resp = $resp->withStatus(201);
-                                }
-                            }
-
-                        } else {
-                            $resp->getBody()->write(Json::error(500, "merci de transmettre une livraison valide"));
-                        }
-                    } else {
-                        $resp->getBody()->write(Json::error(500, "merci de transmettre un nom valide"));
-                    }
-                } else {
-                    $resp->getBody()->write(Json::error(500, "merci de transmettre un mail valide"));
+        if ($req->getAttribute('has_errors')) {
+            $errors = $req->getAttribute('errors');
+            var_dump($errors);
+            foreach ($errors as $key => $listerrorAttribute) {
+                echo "<strong>" . $key . " : </strong><br/>";
+                //echo "<br/>";
+                foreach ($listerrorAttribute as $error) {
+                    echo $error;
+                    echo "<br/>";
                 }
-            } else {
-                $resp->getBody()->write(Json::error(500, "merci de transmettre du nom, email et livraison"));
             }
         } else {
-            $resp->getBody()->write(Json::error(500, "merci de transmettre du JSON valide"));
-        }
+            $resp = $resp->withHeader('Content-Type', 'application/json');
+            $req_body = $req->getBody()->getContents();
 
+
+            if (Json::isJson($req_body)) {
+                $body = json_decode($req_body, true);
+                $resp = $resp->withStatus(500);
+                try {
+                    $uuid = Uuid::uuid1();
+                } catch (\Exception $e) {
+                    echo $e;
+                }
+                $commande = new Commande();
+                $commande->id = $uuid->toString();
+                $commande->nom = filter_var($body["nom"], FILTER_SANITIZE_STRING);
+                $commande->mail = filter_var($body["mail"], FILTER_SANITIZE_STRING);
+                $commande->token = bin2hex(openssl_random_pseudo_bytes(32));
+                $commande->montant = 0;
+                $commande->livraison = $body["livraison"]["date"] . " " . $body["livraison"]["heure"];
+
+                if (isset($body["client_id"])) {
+                    $client = Client::find($body["client_id"]);
+                    if ($client) {
+                        $token = explode(" ", $req->getHeader("Authorization")[0])[1];
+                        $tokenDecoded = JWT::decode($token, "lul", array('HS512'));
+
+                        if ($client->id == $tokenDecoded->id)
+                            $commande->client_id = $body["client_id"];
+                    }
+                }
+                $total = 0;
+                foreach ($body["items"] as $item) {
+                    $total += $commande->addItem($item);
+                    if (isset($body["client_id"])) {
+                        $client->cumul_achats += $total;
+                        $client->save();
+                    }
+                }
+                $commande->save();
+
+                $resp->getBody()->write(Json::resource("commande", $commande->toArray()));
+
+                $resp = $resp->withHeader("Location", "http://api.commande.local:19080/commands/" . $uuid->toString());
+                $resp = $resp->withStatus(201);
+            } else {
+                $resp->getBody()->write(Json::error(500, "merci de transmettre du JSON valide"));
+            }
+        }
         return $resp;
     }
 
