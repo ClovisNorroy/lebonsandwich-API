@@ -38,7 +38,6 @@ $app = new \Slim\App($c);
 
 $foo = new \lbs\command\control\CommandeController();
 $app->post('/commands[/]', "\lbs\command\control\CommandeController:createCommand")->add(new Validation($validators));
-
 $app->get('/commands/{id}', '\lbs\command\control\CommandeController:getCommand');
 $app->put('/commands/{id}', '\lbs\command\control\CommandeController:updateCommand');
 $app->get('/clients/{id}[/]', '\lbs\command\control\ClientController:getClientCard');
@@ -59,14 +58,5 @@ $c['notAllowedHandler'] = function ($c) {
             ->write(Json::error(405, "methode non disponible"));
     };
 };
-/*
-$c['errorHandler'] = function ($c) {
-    return function ($request, $response) use ($c) {
 
-        return $response->withStatus(500)
-            ->withHeader('Content-Type', 'application/json')
-            ->write(Json::error(500, "erreur serveur"));
-    };
-};
-*/
 $app->run();

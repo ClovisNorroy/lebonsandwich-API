@@ -28,7 +28,6 @@ class CommandeController
             $resp->getBody()->write(Json::error(401, "Token non fournie"));
             return $resp;
         }
-
         $commande = Commande::find($id);
 
         if ($commande) {
@@ -48,6 +47,7 @@ class CommandeController
 
     public function createCommand(Request $req, Response $resp, $args)
     {
+        header("Access-Control-Allow-Origin: *");
         if ($req->getAttribute('has_errors')) {
             $errors = $req->getAttribute('errors');
             var_dump($errors);
@@ -108,7 +108,7 @@ class CommandeController
                 $resp->getBody()->write(Json::error(500, "merci de transmettre du JSON valide"));
             }
         }
-        return $resp;
+        return $resp->withHeader('Access-Control-Allow-Origin', 'http://api.commande.local');
     }
 
     public function updateCommand(Request $req, Response $resp, $args)
@@ -149,17 +149,4 @@ class CommandeController
         }
         return $resp;
     }
-
-//    public function validateDataCommand($body){
-//        if(!isset($body["nom"]) || $body["nom"] != ""){
-//            return Json::error(500, "merci de transmettre un nom valide");
-//        }
-//        if(!filter_var($body["mail"], FILTER_VALIDATE_EMAIL)){
-//            return Json::error(500, "merci de transmettre un mail valide");
-//        }
-//        if(isset($body["livraison"]) && )
-//        if(\DateTime::createFromFormat('Y-M-d', $body["livraison"]["date"]) == false || ){
-//
-//        }
-//    }
 }

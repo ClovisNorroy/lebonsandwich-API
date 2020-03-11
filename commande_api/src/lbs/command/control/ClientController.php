@@ -10,14 +10,11 @@ use system\Json;
 
 class ClientController
 {
-
     public function getClientCard(Request $req, Response $resp, $args){
         $resp = $resp->withHeader('Content-Type', 'application/json');
-
         if(isset($args["id"])){
             $client = Client::find($args["id"]);
             if($client){
-
                 $token = explode(" ", $req->getHeader("Authorization")[0])[1];
                 $tokenDecoded = JWT::decode($token, "lul", array('HS512'));
                 $client = Client::find($tokenDecoded->id);
@@ -28,14 +25,12 @@ class ClientController
         }else{
             $resp->getBody()->write(Json::error(404, "Merci d'entrer un identifiant valide."));
         }
-
         return $resp;
     }
 
     public function authClient(Request $req, Response $resp, $args)
     {
         $resp = $resp->withHeader('Content-Type', 'application/json');
-
         //Retourne une erreur 401 par défaut
         $resp = $resp->withStatus(401);
 
