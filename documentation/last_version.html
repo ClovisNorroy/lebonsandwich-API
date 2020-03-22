@@ -1,0 +1,341 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <title>Documentation API</title>
+    <meta charset="UTF-8" />
+    <style>
+        body{
+            display: flex;
+            justify-content: center;
+            font-family: Arial;
+        }
+        .container {
+            width: 100%;
+            padding-right: 15px;
+            padding-left: 15px;
+            margin-right: auto;
+            margin-left: auto;
+        }
+
+        @media (min-width: 576px) {
+            .container {
+                max-width: 540px;
+            }
+        }
+
+        @media (min-width: 768px) {
+            .container {
+                max-width: 720px;
+            }
+        }
+
+        @media (min-width: 992px) {
+            .container {
+                max-width: 960px;
+            }
+        }
+
+        @media (min-width: 1200px) {
+            .container {
+                max-width: 1140px;
+            }
+        }
+
+        .badge{
+            color: white;
+            padding: 0.5rem;
+        }
+
+        .badge-primary{
+            background: gray;
+        }
+
+        .badge-secondary{
+            background: lightslategray;
+        }
+
+        .url{
+            background: dimgray;
+            color: white;
+            padding: 1rem;
+            border-radius: 0.3rem;
+        }
+
+        ul li a{
+            color: black;
+            text-decoration: none;
+        }
+
+        ul li a:hover{
+            color: dimgray;
+        }
+
+        table{
+            width: 100%;
+        }
+
+        table, th, td {
+            border: 1px solid black;
+            border-collapse: collapse;
+        }
+        th, td {
+            padding: 5px;
+            text-align: left;
+        }
+        .prettyprint{
+            padding: 1rem;
+            border-radius: 0.3rem;
+        }
+        .action{
+            margin-top: 3rem;
+            border-bottom: 1px solid black;
+        }
+    </style>
+</head>
+<body>
+<div class="container">
+    <h1>Documentation de l'API "LeBonSandwich"</h1>
+    <p>Sauf mention contraire, tous les paramètres doivent être passés en JSON.</p>
+    <h2>Actions</h2>
+    <h3>Commande</h3><ul><li><a href="#create_command">Créer une commande</a></li><li><a href="#get_command">Récupérer une commande</a></li><li><a href="#edit_command">Modifier une commande</a></li><li><a href="#get_client">Récupérer un client</a></li><li><a href="#auth_client">Authentifier un client</a></li></ul><h3>Catalogue</h3><ul><li><a href="#list_sandwich">Lister les sandwichs</a></li><li><a href="#get_sandwich">Récupérer les informations d'un sandwich</a></li><li><a href="#get_category">Récupérer une catégorie</a></li><li><a href="#get_sandwich_by_categorie">Récupérer les sandwichs d'une catégorie</a></li></ul><h3>Point de vente</h3><ul><li><a href="#list_command">Lister les commandes</a></li><li><a href="#get_command">Récupérer une commande</a></li></ul><h2>Commande</h2>            <div id="create_command" class="action">
+    <h3>Créer une commande</h3>
+    <span class="badge badge-secondary">POST</span>
+    <pre class="url">/commands</pre>
+    <h4>Paramètres</h4>
+    <table>
+        <tr>
+            <th>Champ</th>
+            <th>Type</th>
+            <th>Description</th>
+            <th>Obligatoire</th>
+        </tr>
+        <tr>
+            <td>nom</td>
+            <td>String</td>
+            <td>Nom du client</td>
+            <td>Oui</td>
+        </tr>
+        <tr>
+            <td>mail</td>
+            <td>String</td>
+            <td>Email du client</td>
+            <td>Oui</td>
+        </tr>
+        <tr>
+            <td>livraison date</td>
+            <td>date</td>
+            <td>Date de livraison</td>
+            <td>Oui</td>
+        </tr>
+        <tr>
+            <td>livraison heure</td>
+            <td>time</td>
+            <td>Heure de livraison</td>
+            <td>Oui</td>
+        </tr>
+        <tr>
+            <td>items</td>
+            <td>array</td>
+            <td>Liste des items</td>
+            <td>Oui</td>
+        </tr>
+    </table>
+</div>
+
+    <div id="get_command" class="action">
+        <h3>Récupérer une commande</h3>
+        <span class="badge badge-secondary">GET</span>
+        <pre class="url">/commands/{id}</pre>
+        <h4>Paramètres</h4>
+        <table>
+            <tr>
+                <th>Champ</th>
+                <th>Type</th>
+                <th>Description</th>
+                <th>Obligatoire</th>
+            </tr>
+            <tr>
+                <td>id</td>
+                <td>Integer</td>
+                <td>ID de la commande</td>
+                <td>Oui</td>
+            </tr>
+        </table>
+    </div>
+
+    <div id="edit_command" class="action">
+        <h3>Modifier une commande</h3>
+        <span class="badge badge-secondary">PUT</span>
+        <pre class="url">/commands/{id}</pre>
+        <h4>Paramètres</h4>
+        <table>
+            <tr>
+                <th>Champ</th>
+                <th>Type</th>
+                <th>Description</th>
+                <th>Obligatoire</th>
+            </tr>
+            <tr>
+                <td>id</td>
+                <td>Integer</td>
+                <td>ID de la commande</td>
+                <td>Oui</td>
+            </tr>
+        </table>
+    </div>
+
+    <div id="get_client" class="action">
+        <h3>Récupérer un client</h3>
+        <span class="badge badge-secondary">GET</span>
+        <pre class="url">/clients/{id}</pre>
+        <h4>Paramètres</h4>
+        <table>
+            <tr>
+                <th>Champ</th>
+                <th>Type</th>
+                <th>Description</th>
+                <th>Obligatoire</th>
+            </tr>
+            <tr>
+                <td>id</td>
+                <td>Integer</td>
+                <td>ID du client</td>
+                <td>Oui</td>
+            </tr>
+        </table>
+    </div>
+
+    <div id="auth_client" class="action">
+        <h3>Authentifier un client</h3>
+        <span class="badge badge-secondary">POST</span>
+        <pre class="url">/clients/{id}/auth</pre>
+        <h4>Paramètres</h4>
+        <table>
+            <tr>
+                <th>Champ</th>
+                <th>Type</th>
+                <th>Description</th>
+                <th>Obligatoire</th>
+            </tr>
+            <tr>
+                <td>id</td>
+                <td>Integer</td>
+                <td>ID du client</td>
+                <td>Oui</td>
+            </tr>
+            <tr>
+                <td>username</td>
+                <td>Header Basic Authentification</td>
+                <td>Adresse email du client</td>
+                <td>Oui</td>
+            </tr>
+            <tr>
+                <td>password</td>
+                <td>Header Basic Authentification</td>
+                <td>Mot de passe du client</td>
+                <td>Oui</td>
+            </tr>
+        </table>
+    </div>
+
+    <h2>Catalogue</h2>            <div id="list_sandwich" class="action">
+    <h3>Lister les sandwichs</h3>
+    <span class="badge badge-secondary">GET</span>
+    <pre class="url">/sandwichs</pre>
+</div>
+
+    <div id="get_sandwich" class="action">
+        <h3>Récupérer les informations d'un sandwich</h3>
+        <span class="badge badge-secondary">GET</span>
+        <pre class="url">/sandwichs/{ref}</pre>
+        <h4>Paramètres</h4>
+        <table>
+            <tr>
+                <th>Champ</th>
+                <th>Type</th>
+                <th>Description</th>
+                <th>Obligatoire</th>
+            </tr>
+            <tr>
+                <td>ref</td>
+                <td>String</td>
+                <td>Référence du sandwich</td>
+                <td>Oui</td>
+            </tr>
+        </table>
+    </div>
+
+    <div id="get_category" class="action">
+        <h3>Récupérer une catégorie</h3>
+        <span class="badge badge-secondary">GET</span>
+        <pre class="url">/categories/{id}</pre>
+        <h4>Paramètres</h4>
+        <table>
+            <tr>
+                <th>Champ</th>
+                <th>Type</th>
+                <th>Description</th>
+                <th>Obligatoire</th>
+            </tr>
+            <tr>
+                <td>id</td>
+                <td>Integer</td>
+                <td>ID de la catégorie</td>
+                <td>Oui</td>
+            </tr>
+        </table>
+    </div>
+
+    <div id="get_sandwich_by_categorie" class="action">
+        <h3>Récupérer les sandwichs d'une catégorie</h3>
+        <span class="badge badge-secondary">GET</span>
+        <pre class="url">/categories/{id}/sandwichs</pre>
+        <h4>Paramètres</h4>
+        <table>
+            <tr>
+                <th>Champ</th>
+                <th>Type</th>
+                <th>Description</th>
+                <th>Obligatoire</th>
+            </tr>
+            <tr>
+                <td>id</td>
+                <td>Integer</td>
+                <td>ID de la catégorie</td>
+                <td>Oui</td>
+            </tr>
+        </table>
+    </div>
+
+    <h2>Point de vente</h2>            <div id="list_command" class="action">
+    <h3>Lister les commandes</h3>
+    <span class="badge badge-secondary">GET</span>
+    <pre class="url">/commands</pre>
+</div>
+
+    <div id="get_command" class="action">
+        <h3>Récupérer une commande</h3>
+        <span class="badge badge-secondary">GET</span>
+        <pre class="url">/commands/{id}</pre>
+        <h4>Paramètres</h4>
+        <table>
+            <tr>
+                <th>Champ</th>
+                <th>Type</th>
+                <th>Description</th>
+                <th>Obligatoire</th>
+            </tr>
+            <tr>
+                <td>id</td>
+                <td>Integer</td>
+                <td>ID de la commande</td>
+                <td>Oui</td>
+            </tr>
+        </table>
+    </div>
+
+
+</div>
+<script src="https://cdn.jsdelivr.net/gh/google/code-prettify@master/loader/run_prettify.js"></script>
+</body>
+</html>
